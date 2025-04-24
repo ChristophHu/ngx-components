@@ -9,7 +9,7 @@ import { provideHttpClient } from '@angular/common/http';
 export const appConfig: ApplicationConfig = {
   providers: [
     provideHttpClient(),
-    provideGithubPagesDemo({ username: 'christophhu', repository: 'ngx-debug-mode', version: '19.2.1', token: null, template: TemplateComponent }),
+    provideGithubPagesDemo({ username: 'christophhu', repository: 'ngx-components', version: '19.2.0', token: null, template: TemplateComponent }),
     provideRouter(routes),
     provideZoneChangeDetection({ eventCoalescing: true })
   ]
