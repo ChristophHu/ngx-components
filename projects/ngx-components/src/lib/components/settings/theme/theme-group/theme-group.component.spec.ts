@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { GradientButtonComponent } from './gradient-button.component';
+import { ThemeGroupComponent } from './theme-group.component';
 
-describe('GradientButtonComponent', () => {
-  let component: GradientButtonComponent;
-  let fixture: ComponentFixture<GradientButtonComponent>;
+describe('ThemeGroupComponent', () => {
+  let component: ThemeGroupComponent;
+  let fixture: ComponentFixture<ThemeGroupComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [GradientButtonComponent]
+      imports: [ThemeGroupComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(GradientButtonComponent);
+    fixture = TestBed.createComponent(ThemeGroupComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

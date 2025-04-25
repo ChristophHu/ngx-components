@@ -1,0 +1,18 @@
+.theme_settings
+    button
+        &:not(.theme_active)
+            /* @apply bg-gray-200 text-gray-400 */
+            background-color: var(--lighter) // rgb(229 231 235)
+            color: var(--dark) // rgb(156 163 175)
+        
+        &.theme_active 
+            /* @apply bg-white text-gray-700 rounded */
+            background-color: var(--light) // #ffffff
+            color: var(--darker) // rgb(55 65 81)
+            border-radius: 0.25rem
+        
+        &:hover 
+            /* @apply bg-white text-gray-700 rounded */
+            background-color: var(--light) // #ffffff
+            color: var(--darker) // rgb(55 65 81)
+            border-radius: 0.25rem
