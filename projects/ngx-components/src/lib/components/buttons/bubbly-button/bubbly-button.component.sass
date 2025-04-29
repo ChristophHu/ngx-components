@@ -1,4 +1,5 @@
-$button-bg: #4287f5
+$button-bg: var(--accent)
+$button-darker: var(--accent-darker)
     
 .bubbly
     background-color: $button-bg
@@ -28,8 +29,8 @@ $button-bg: #4287f5
         background-position: 5% 90%, 10% 90%, 10% 90%, 15% 90%, 25% 90%, 25% 90%, 40% 90%, 55% 90%, 70% 90%
 
     &:active
-        transform: scale(0.9)
-        background-color: darken($button-bg, 5%)
+        transform: scale(0.95)
+        background-color: $button-darker
         box-shadow: 0 2px 25px rgba(52, 105, 191, 0.2)
 
     &.animate
