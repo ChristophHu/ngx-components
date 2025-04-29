@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { BorderButtonComponent } from './border-button.component';
+import { LavaButtonComponent } from './lava-button.component';
 
-describe('BorderButtonComponent', () => {
-  let component: BorderButtonComponent;
-  let fixture: ComponentFixture<BorderButtonComponent>;
+describe('LavaButtonComponent', () => {
+  let component: LavaButtonComponent;
+  let fixture: ComponentFixture<LavaButtonComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [BorderButtonComponent]
+      imports: [LavaButtonComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(BorderButtonComponent);
+    fixture = TestBed.createComponent(LavaButtonComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
