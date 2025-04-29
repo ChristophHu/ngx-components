@@ -14,8 +14,8 @@ import { Component } from '@angular/core';
       </defs>
     </svg>
   
-    <button id="gooey-button">
-      F*** Awesome
+    <button id="gooey-button" class="cursor-pointer">
+      Lava-Button
       <span class="bubbles">
         <span class="bubble"></span>
         <span class="bubble"></span>
@@ -31,15 +31,16 @@ import { Component } from '@angular/core';
     </button>
   `,
   styles: `
-    $prime: var(--accent) // #00FF80
-    $text: var(--dark) // #0c1016
+    $prime: var(--accent)
+    $text: var(--dark)
+    $button-darker: var(--accent-darker)
 
     svg
       display: none
 
     #gooey-button
-      padding: 1rem
-      font-size: 1.5rem
+      padding: 0.5rem
+      font-size: 1rem
       border: none
       color: $text
       filter: url('#gooey')
@@ -48,6 +49,11 @@ import { Component } from '@angular/core';
 
       &:focus
         outline: none
+
+      &:active
+        transform: scale(0.95)
+        // background-color: $button-darker
+        box-shadow: 0 2px 25px rgba(52, 105, 191, 0.2)
 
       .bubbles
         position: absolute
