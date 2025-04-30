@@ -5,15 +5,21 @@ import { ShimmerComponent } from '../../../../ngx-components/src/lib/components/
 import { LavaButtonComponent } from '../../../../ngx-components/src/lib/components/buttons/lava-button/lava-button.component';
 import { GradientBorderButtonComponent } from '../../../../ngx-components/src/lib/components/buttons/gradient-border-button/gradient-border-button.component';
 import { GradientFlowButtonComponent } from '../../../../ngx-components/src/lib/components/buttons/gradient-flow-button/gradient-flow-button.component';
+import { DottedGridBgComponent } from '../../../../ngx-components/src/lib/components/backgrounds/dotted-grid-bg/dotted-grid-bg.component';
+import { ShinyButtonComponent } from '../../../../ngx-components/src/lib/components/buttons/shiny-button/shiny-button.component';
 
 @Component({
   selector: 'app-template',
   imports: [
+    // backgrounds
+    DottedGridBgComponent,
+    
     // buttons
     BubblyButtonComponent,
     GradientBorderButtonComponent,
     GradientFlowButtonComponent,
     LavaButtonComponent,
+    ShinyButtonComponent,
 
     // themes
     ThemeGroupComponent,
