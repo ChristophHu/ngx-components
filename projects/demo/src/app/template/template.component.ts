@@ -4,6 +4,7 @@ import { CenteredHeadlineComponent } from '../../../../ngx-components/src/lib/co
 import { ShimmerComponent } from '../../../../ngx-components/src/lib/components/effects/shimmer/shimmer.component';
 import { LavaButtonComponent } from '../../../../ngx-components/src/lib/components/buttons/lava-button/lava-button.component';
 import { GradientBorderButtonComponent } from '../../../../ngx-components/src/lib/components/buttons/gradient-border-button/gradient-border-button.component';
+import { GradientFlowButtonComponent } from '../../../../ngx-components/src/lib/components/buttons/gradient-flow-button/gradient-flow-button.component';
 
 @Component({
   selector: 'app-template',
@@ -11,6 +12,7 @@ import { GradientBorderButtonComponent } from '../../../../ngx-components/src/li
     // buttons
     BubblyButtonComponent,
     GradientBorderButtonComponent,
+    GradientFlowButtonComponent,
     LavaButtonComponent,
 
     // themes
