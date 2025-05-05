@@ -4,6 +4,8 @@ import { CenteredHeadlineComponent } from '../../../../ngx-components/src/lib/co
 import { ShimmerComponent } from '../../../../ngx-components/src/lib/components/effects/shimmer/shimmer.component';
 import { LavaButtonComponent } from '../../../../ngx-components/src/lib/components/buttons/lava-button/lava-button.component';
 import { GradientBorderButtonComponent } from '../../../../ngx-components/src/lib/components/buttons/gradient-border-button/gradient-border-button.component';
+import { AccordeonGalleryComponent } from '../../../../ngx-components/src/lib/components/gallery/accordeon-gallery/accordeon-gallery.component';
+import { AccordeonGallery2Component } from '../../../../ngx-components/src/lib/components/gallery/accordeon-gallery2/accordeon-gallery2.component';
 
 @Component({
   selector: 'app-template',
@@ -13,6 +15,10 @@ import { GradientBorderButtonComponent } from '../../../../ngx-components/src/li
     GradientBorderButtonComponent,
     LavaButtonComponent,
 
+    // gallery
+    AccordeonGalleryComponent,
+    AccordeonGallery2Component,
+    
     // themes
     ThemeGroupComponent,
 
