@@ -7,6 +7,7 @@ import { GradientBorderButtonComponent } from '../../../../ngx-components/src/li
 import { GradientFlowButtonComponent } from '../../../../ngx-components/src/lib/components/buttons/gradient-flow-button/gradient-flow-button.component';
 import { DottedGridBgComponent } from '../../../../ngx-components/src/lib/components/backgrounds/dotted-grid-bg/dotted-grid-bg.component';
 import { ShinyButtonComponent } from '../../../../ngx-components/src/lib/components/buttons/shiny-button/shiny-button.component';
+import { StackComponent } from '../../../../ngx-components/src/lib/components/edu/stack/stack.component';
 
 @Component({
   selector: 'app-template',
@@ -28,7 +29,9 @@ import { ShinyButtonComponent } from '../../../../ngx-components/src/lib/compone
     CenteredHeadlineComponent,
 
     // effects
-    ShimmerComponent
+    ShimmerComponent,
+
+    StackComponent
   ],
   templateUrl: './template.component.html',
   styleUrl: './template.component.sass'
