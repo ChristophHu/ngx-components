@@ -1,3 +1,14 @@
+[data-exploded='false'] {
+  .test {
+    color: red;
+  }
+}
+[data-exploded='true'] {
+  .test {
+    color: blue;
+  }
+}
+
 @import url('https://unpkg.com/normalize.css') layer(normalize);
 
 @layer normalize, base, demo, structural, explode, shadows;
@@ -46,7 +57,7 @@
     overflow: hidden;
   }
 
-  [data-exploded='false'] {
+  [data-exploded='true'] {
     .shadow {
       opacity: 1;
       transition: opacity 1s;
@@ -72,7 +83,7 @@
     }
   }
 
-  [data-exploded='true'] {
+  [data-exploded='false'] {
     .mover > .shadow {
       opacity: 0.5;
       scale: 0.96;
@@ -675,26 +686,6 @@
     transform-style: flat;
     pointer-events: none;
     z-index: -1;
-  }
-
-  .bear-link {
-    color: canvasText;
-    position: fixed;
-    top: 1rem;
-    left: 1rem;
-    width: 48px;
-    aspect-ratio: 1;
-    display: grid;
-    place-items: center;
-    opacity: 0.8;
-  }
-
-  :where(.x-link, .bear-link):is(:hover, :focus-visible) {
-    opacity: 1;
-  }
-
-  .bear-link svg {
-    width: 75%;
   }
 
   /* Utilities */

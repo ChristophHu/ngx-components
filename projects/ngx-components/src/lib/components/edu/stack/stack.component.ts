@@ -37,6 +37,12 @@ export class StackComponent {
   
     // x1.disabled = y1.disabled = x2.disabled = !this.config.explode
   }
+
+  explode() {
+    console.log('explode', this.config.explode)
+    this.config.explode = !this.config.explode
+    this.update()
+  }
   
   // const sync = (event) => {
   //   if (
