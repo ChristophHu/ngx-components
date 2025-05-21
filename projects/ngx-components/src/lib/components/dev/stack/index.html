@@ -1,0 +1,1298 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://unpkg.com/normalize.css">
+    <link rel="import" href="https://cdn.skypack.dev/tweakpane@4.0.4">
+</head>
+<body>
+    <style>
+        /* @import url('https://unpkg.com/normalize.css') layer(normalize); */
+
+@layer normalize, base, demo, structural, explode, shadows;
+
+@layer shadows {
+  :root {
+    --power: linear(
+      0 0%, 0.2688 9.91%, 0.3859 15%,
+      0.4917 20.19%, 0.5865 25.5%,
+      0.6705 30.93%, 0.7441 36.51%,
+      0.8075 42.26%, 0.8593 47.98%,
+      0.9022 53.93%, 0.9366 60.13%,
+      0.963 66.67%, 0.9812 73.4%,
+      0.9929 80.76%, 0.9986 88.89%, 1 100%
+    );
+  }
+  .shadow {
+    transition: opacity 0.26s, transform 0.26s, scale 0.26s;
+  }
+
+  .shadow--main:has(+ .layer > .mover:hover),
+  .mover:has(+ .layer > .mover:hover) > .shadow,
+  .mover:has(+ .layer > .mover:hover) > .shadow-wrap .shadow {
+    opacity: 0.2;
+
+    div {
+      scale: 0.94;
+    }
+  }
+  .mover:hover > .shadow-wrap .shadow,
+  .mover:hover > .shadow {
+    opacity: 1;
+    scale: 0.98;
+  }
+}
+
+@layer explode {
+  main {
+    transform-style: preserve-3d;
+    * {
+      transform-style: preserve-3d;
+    }
+  }
+  .shadow {
+    scale: 0.999;
+    overflow: hidden;
+  }
+
+  [data-exploded='false'] {
+    .shadow {
+      opacity: 1;
+      transition: opacity 1s;
+
+      div {
+        transition: translate 1s, scale 0.26s;
+      }
+    }
+    main {
+      transform: translate3d(0, 0, 100vmin) rotateX(0deg) rotateY(0deg)
+        rotateX(0deg);
+      transition: transform 1s 1s var(--power);
+
+      /* .shadow--main div, */
+      .mover > :is(.content, .shadow) {
+        transition: transform 0.26s, opacity 1s;
+      }
+
+      .layer {
+        translate: 0 0 0;
+        transition: translate 1s var(--power);
+      }
+    }
+  }
+
+  [data-exploded='true'] {
+    .mover > .shadow {
+      opacity: 0.5;
+      scale: 0.96;
+      transition: opacity 1s 1s;
+    }
+    .mover > .shadow-wrap {
+      opacity: 1;
+      .shadow {
+        opacity: 0.5;
+      }
+    }
+    main {
+      transform: translate3d(0, 0, 100vmin) rotateX(calc(var(--x1, 340) * 1deg))
+        rotateY(calc(var(--y1, 30) * 1deg)) rotateX(calc(var(--x2, 40) * 1deg));
+      transition: transform 1s var(--power);
+
+      .mover > :is(.content, .shadow) {
+        transition: transform 0.26s;
+      }
+
+      .shadow--main div,
+      .shadow-wrap .shadow div,
+      .mover > .shadow div {
+        transition: translate 1s 1s, scale 0.26s;
+      }
+
+      .shadow--main div,
+      .mover > .shadow div {
+        translate: calc(var(--tx, 0.5) * 1rem) calc(var(--ty, -0.5) * 1rem);
+      }
+
+      .mover:hover > div {
+        transform: translate3d(0, 0, 1rem);
+      }
+
+      .layer {
+        translate: 
+          calc(var(--tx, 0.5) * 1rem)
+          calc(var(--ty, -0.5) * 1rem)
+          calc(var(--step, 4) * 1rem)
+        ;
+        transition: translate 1s 1s;
+        transition-timing-function: var(--power);
+      }
+    }
+  }
+}
+
+@layer structural {
+  :root {
+    --accent: light-dark(hsl(12 94% 60%), hsl(280 80% 80%));
+    --dialog-width: 140px;
+    --dialog-height: 112px;
+    --shadow: light-dark(hsl(0 0% 0% / 0.3), hsl(0 0% 0% / 0.7));
+    --heading-size: 44px;
+    --count: 4;
+    --content-size: calc(
+      (var(--count) - 1) * 0.5rem + (var(--count) * 1.25rem) + 1.5rem + 2px
+    );
+  }
+
+  .layer {
+    pointer-events: none;
+    position: relative;
+  }
+  main,
+  section.layer {
+    grid-area: 1 / 1;
+    display: grid;
+    grid-template: auto / auto;
+  }
+  
+  section.layer {
+    width: clamp(300px, 50vw, 460px);
+  }
+
+  .shadow {
+    grid-area: 2 / 1;
+    z-index: 2;
+    opacity: 0.2;
+    pointer-events: none;
+  }
+
+  :root:has(dialog[open]) .shadow-wrap {
+    display: block;
+    opacity: 1;
+
+    .shadow div {
+      scale: 0.999;
+      translate: 0 0;
+    }
+  }
+
+  :root:has(dialog[open])[data-exploded='true'] .shadow-wrap {
+    .shadow div {
+      transition: translate 10s;
+      translate: calc(var(--tx, 0.5) * 1rem) calc(var(--ty, -0.5) * 1rem);
+    }
+  }
+
+  .shadow-wrap .shadow div {
+    transition-property: transition, scale, transform, translate;
+    transition-duration: 0.26s;
+    transform-origin: 50% 0;
+    scale: 0.9;
+    translate: 0 -12px;
+  }
+
+  .shadow-wrap {
+    display: none;
+    transition-property: display, opacity, transition, scale, transform;
+    transition-behavior: allow-discrete;
+    transition-duration: 0.26s;
+    opacity: 0;
+    /* transform-origin: 50% 0;
+    scale: 0.9;
+    translate: 0 -12px; */
+  }
+
+  @starting-style {
+    :root:has(dialog[open]) .shadow-wrap {
+      opacity: 0;
+    }
+
+    :root:has(dialog[open]) .shadow-wrap .shadow div {
+      scale: 0.9;
+      translate: 0 -12px;
+    }
+  }
+
+  .shadow--dialog {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+    div {
+      position: absolute;
+      right: -1rem;
+      right: 0;
+      top: -2px;
+      width: var(--dialog-width);
+      height: var(--dialog-height);
+      background: var(--shadow);
+      border-radius: 6px;
+    }
+  }
+
+  .shadow--main {
+    position: relative;
+    z-index: -1;
+    div {
+      background: var(--shadow);
+      border-radius: 12px;
+      position: absolute;
+      inset: 0;
+      translate: 0 0;
+    }
+  }
+
+  .shadow--main {
+    grid-area: 1 / 1;
+  }
+  .content--main {
+    width: 100%;
+  }
+  .table--layer,
+  .shadow--table,
+  .content--main {
+    grid-area: 1 / 1;
+    display: grid;
+    grid-template-rows: var(--heading-size) calc(
+        var(--heading-size) + var(--content-size)
+      );
+    padding: 1rem;
+    padding-top: 0;
+  }
+
+  .shadow--status div,
+  .shadow--table div {
+    grid-area: 2 / 1;
+    background: var(--shadow);
+    border-radius: 6px;
+  }
+
+  .shadow--table,
+  .table--layer {
+    border: 1px solid #0000;
+  }
+
+  .layer--status,
+  .shadow--status,
+  .content--table {
+    display: grid;
+    grid-template-rows: var(--heading-size) 1fr;
+    grid-area: 2 / 1;
+  }
+
+  .layer--dialog,
+  .content--status {
+    grid-area: 2 / 1;
+  }
+
+  .mover {
+    pointer-events: all;
+    grid-area: 1 / 1;
+    display: grid;
+    grid-template: auto / auto;
+
+    > div {
+      grid-area: 1 / 1;
+    }
+  }
+  .mover--nested {
+    grid-area: 2 / 1;
+  }
+}
+
+@layer demo {
+  .table-slot {
+    background: color-mix(in hsl, canvas, canvasText 2%);
+    border: 1px solid color-mix(in hsl, canvas, canvasText 30%);
+    border-radius: 6px;
+  }
+
+  .content--main {
+    background: color-mix(in hsl, canvas, canvasText 4%);
+    border: 1px solid color-mix(in hsl, canvas, canvasText 30%);
+    border-radius: 12px;
+    font-size: 0.875rem;
+    position: relative;
+    font-family: monospace;
+  }
+
+  .content--table {
+    overflow: hidden;
+  }
+
+  .table {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+
+    table {
+      translate: 0 2px;
+      border-collapse: collapse;
+      width: 100%;
+      max-width: 100%;
+      font-family: monospace;
+
+      thead {
+        background: color-mix(in hsl, canvas, canvasText 4%);
+        font-weight: 600;
+      }
+
+      td:first-of-type > span {
+        align-items: center;
+        display: flex;
+        gap: 0.5rem;
+
+        svg {
+          width: 16px;
+          color: var(--accent);
+        }
+      }
+
+      td {
+        border: 1px solid color-mix(in hsl, canvas, canvasText 30%);
+        padding: 0.2rem 0.5rem;
+        position: relative;
+
+        &:nth-of-type(3) {
+          overflow: hidden;
+          white-space: nowrap;
+          max-width: 12ch;
+          text-overflow: ellipsis;
+        }
+
+        &:first-of-type {
+          border-left: 0;
+        }
+        &:last-of-type {
+          border-right: 0;
+        }
+      }
+
+      .true {
+        color: hsl(140 80% 40%);
+      }
+    }
+  }
+
+  .content--table .heading {
+    padding-inline: 0.75rem;
+  }
+
+  .heading {
+    align-items: center;
+    display: flex;
+    gap: 0.5rem;
+    font-family: monospace;
+    margin: 0;
+    font-weight: 600;
+    position: relative;
+    height: 100%;
+
+    svg {
+      width: 16px;
+    }
+
+    & > button {
+      aspect-ratio: 1;
+      background: #0000;
+      border: 0;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      position: absolute;
+      right: 0.75rem;
+      top: 50%;
+      translate: 0 -50%;
+
+      &:is(:focus-visible, :hover) {
+        --opacity: 1;
+      }
+
+      &::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        border-radius: 6px;
+        background: hsl(0 0% 50% / 0.22);
+        opacity: var(--opacity, 0);
+        transition: opacity 0.24s;
+      }
+    }
+  }
+  .content__heading {
+    padding: 0;
+  }
+
+  .table-slot,
+  main {
+    position: relative;
+  }
+
+  main {
+    border-radius: 12px;
+    text-transform: lowercase;
+  }
+
+  .table-slot::before,
+  main::before {
+    content: '';
+    position: absolute;
+    inset: 0px;
+    border-radius: inherit;
+    border: 2px solid var(--accent);
+    background: repeating-linear-gradient(
+      -45deg,
+      #0000 0 4px,
+      var(--accent) 4px 5px
+    );
+    z-index: -1;
+  }
+
+  .status {
+    background: canvas;
+    border-radius: 6px;
+    height: 100%;
+    border: 1px solid color-mix(in hsl, canvas, canvasText 30%);
+  }
+
+  .content--table {
+    background: color-mix(in hsl, canvas, canvasText 2%);
+    border: 1px solid color-mix(in hsl, canvas, canvasText 30%);
+    border-radius: 6px;
+  }
+
+  dialog {
+    transition-behavior: allow-discrete;
+    transition-property: display, opacity, translate, scale, filter;
+    transition-duration: 0.26s;
+    opacity: 0;
+    translate: 0 -12px;
+    transform-origin: 50% 0;
+    scale: 0.9;
+    filter: blur(4px);
+
+    &[open] {
+      opacity: 1;
+      scale: 1;
+      translate: 0 0;
+      filter: blur(0px);
+    }
+  }
+
+  @starting-style {
+    dialog[open] {
+      filter: blur(4px);
+      opacity: 0;
+      scale: 0.9;
+      translate: 0 -12px;
+    }
+  }
+
+  dialog {
+    /* display: block; */
+    margin: 0;
+    position: absolute;
+    left: unset;
+    top: -2px;
+    right: -1rem;
+    right: 0;
+    z-index: 99999;
+    border-radius: 6px;
+    background: canvasText;
+    color: canvas;
+    padding: 0.1rem;
+    width: var(--dialog-width);
+    height: var(--dialog-height);
+    border: 0;
+
+    hr {
+      margin: 0;
+      width: 100%;
+      border-style: solid;
+      border-color: color-mix(in hsl, canvas, canvasText 50%);
+      margin-block: 0.1rem;
+      width: calc(100% + 0.2rem);
+      translate: -0.1rem 0;
+      border-width: 1px;
+      border-bottom: 0;
+    }
+
+    svg {
+      width: 16px;
+    }
+
+    button {
+      width: 100%;
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+      padding: 0.5rem;
+      border: 0;
+      border-radius: calc(6px - 0.1rem);
+      cursor: pointer;
+      background: #0000;
+      font-weight: 300;
+      color: color-mix(in hsl, currentColor, #0000 20%);
+      position: relative;
+
+      &:is(:focus-visible, :hover) {
+        background: hsl(0 0% 50% / 0.4);
+      }
+    }
+  }
+
+  .badge {
+    align-items: center;
+    background: color-mix(in hsl, var(--accent), #0000 90%);
+    border: 1px solid var(--accent);
+    border-radius: 6px;
+    color: var(--accent);
+    display: flex;
+    font-size: 12px;
+    font-weight: 300;
+    gap: 0.35rem;
+    line-height: 1;
+    padding: 0.05rem 0.15rem;
+  }
+
+  dl {
+    background: canvas;
+    border-radius: 6px;
+    height: var(--content-size);
+    color: color-mix(in hsl, canvasText, canvas);
+    display: grid;
+    font-size: 0.875rem;
+    grid-template-columns: 1fr auto;
+    grid-auto-rows: 1.25rem;
+    margin: 0;
+    padding: 0.75rem;
+    gap: 0.5rem 0;
+    z-index: 2;
+    overflow: hidden;
+
+    svg {
+      width: 16px;
+    }
+
+    dt {
+      align-items: center;
+      display: flex;
+      gap: 0.5rem;
+    }
+    dd {
+      font-weight: 400;
+      color: canvasText;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+    }
+
+    .prepaid {
+      color: hsl(140 80% 40%);
+      position: relative;
+
+      &::after {
+        content: '';
+        width: 6px;
+        aspect-ratio: 1;
+        border-radius: 50%;
+        background: currentColor;
+        position: absolute;
+        left: 0;
+        top: 50%;
+        translate: -1ch -50%;
+      }
+    }
+  }
+}
+
+@layer base {
+  :root {
+    --font-size-min: 16;
+    --font-size-max: 20;
+    --font-ratio-min: 1.2;
+    --font-ratio-max: 1.33;
+    --font-width-min: 375;
+    --font-width-max: 1500;
+  }
+
+  html {
+    color-scheme: light dark;
+  }
+
+  [data-theme='light'] {
+    color-scheme: light only;
+  }
+
+  [data-theme='dark'] {
+    color-scheme: dark only;
+  }
+
+  :where(.fluid) {
+    --fluid-min: calc(
+      var(--font-size-min) * pow(var(--font-ratio-min), var(--font-level, 0))
+    );
+    --fluid-max: calc(
+      var(--font-size-max) * pow(var(--font-ratio-max), var(--font-level, 0))
+    );
+    --fluid-preferred: calc(
+      (var(--fluid-max) - var(--fluid-min)) /
+        (var(--font-width-max) - var(--font-width-min))
+    );
+    --fluid-type: clamp(
+      (var(--fluid-min) / 16) * 1rem,
+      ((var(--fluid-min) / 16) * 1rem) -
+        (((var(--fluid-preferred) * var(--font-width-min)) / 16) * 1rem) +
+        (var(--fluid-preferred) * var(--variable-unit, 100vi)),
+      (var(--fluid-max) / 16) * 1rem
+    );
+    font-size: var(--fluid-type);
+  }
+
+  *,
+  *:after,
+  *:before {
+    box-sizing: border-box;
+  }
+
+  body {
+    background: light-dark(#fff, #000);
+    display: grid;
+    place-items: center;
+    min-height: 100vh;
+    font-family: 'SF Pro Text', 'SF Pro Icons', 'AOS Icons', 'Helvetica Neue',
+      Helvetica, Arial, sans-serif, system-ui;
+  }
+
+  body::before {
+    --size: 45px;
+    --line: color-mix(in hsl, canvasText, transparent 70%);
+    content: '';
+    height: 100vh;
+    width: 100vw;
+    position: fixed;
+    background: linear-gradient(
+          90deg,
+          var(--line) 1px,
+          transparent 1px var(--size)
+        )
+        50% 50% / var(--size) var(--size),
+      linear-gradient(var(--line) 1px, transparent 1px var(--size)) 50% 50% /
+        var(--size) var(--size);
+    mask: linear-gradient(-20deg, transparent 50%, white);
+    top: 0;
+    transform-style: flat;
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  .bear-link {
+    color: canvasText;
+    position: fixed;
+    top: 1rem;
+    left: 1rem;
+    width: 48px;
+    aspect-ratio: 1;
+    display: grid;
+    place-items: center;
+    opacity: 0.8;
+  }
+
+  :where(.x-link, .bear-link):is(:hover, :focus-visible) {
+    opacity: 1;
+  }
+
+  .bear-link svg {
+    width: 75%;
+  }
+
+  /* Utilities */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+}
+
+div.tp-dfwv {
+  position: fixed;
+  font-family: monospace;
+  text-transform: lowercase;
+}
+
+    </style>
+    <main>
+        <div class="shadow shadow--main">
+          <div></div>
+        </div>
+        <!-- each layer comprises of a shadow, the content, and the next layer -->
+        <section class="layer">
+          <!-- this is your shadow -->
+          <div class="mover">
+            <div class="shadow shadow--table">
+              <div></div>
+            </div>
+            <!-- the main content layer container – this parts moves on hover-->
+            <div class="content content--main">
+              <!-- main content header - table -->
+              <p class="heading">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M6 3h12l4 6-10 13L2 9Z" />
+                  <path d="M11 3 8 9l4 13 4-13-3-6" />
+                  <path d="M2 9h20" />
+                </svg>
+                <span>the craft of ui</span>
+              </p>
+              <div class="table-slot"></div>
+            </div>
+          </div>
+          <!-- the next layer is the table with its heading -->
+          <div class="layer table--layer">
+            <div class="mover mover--nested">
+              <div class="shadow shadow--status">
+                <div></div>
+              </div>
+              <!-- table with its heading goes in here -->
+              <div class="content content--table">
+                <div class="heading">
+                  <span>Subscribers</span>
+                  <span class="badge">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <path
+                        d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2V9M9 21H5a2 2 0 0 1-2-2V9m0 0h18"
+                      />
+                    </svg>
+                    <span>Database</span>
+                  </span>
+                  <button aria-label="Open database options">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="lucide lucide-ellipsis"
+                    >
+                      <circle cx="12" cy="12" r="1" />
+                      <circle cx="19" cy="12" r="1" />
+                      <circle cx="5" cy="12" r="1" />
+                    </svg>
+                  </button>
+                </div>
+                <div class="table">
+                  <table>
+                    <thead>
+                      <td>
+                        <span>
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          >
+                            <path
+                              d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2V9M9 21H5a2 2 0 0 1-2-2V9m0 0h18"
+                            />
+                          </svg>
+                          <span>id</span>
+                        </span>
+                      </td>
+                      <td>email</td>
+                      <td>name</td>
+                      <td>paid</td>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>
+                          <span>
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                            >
+                              <path
+                                d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2V9M9 21H5a2 2 0 0 1-2-2V9m0 0h18"
+                              />
+                            </svg>
+                            <span>1</span>
+                          </span>
+                        </td>
+                        <td>john.doe@me.com</td>
+                        <td><span>John Doe</span></td>
+                        <td class="true">true</td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <span>
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                            >
+                              <path
+                                d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2V9M9 21H5a2 2 0 0 1-2-2V9m0 0h18"
+                              />
+                            </svg>
+                            <span>2</span>
+                          </span>
+                        </td>
+                        <td>emhoff3245@msn.com</td>
+                        <td><span>Emily Hoffmann</span></td>
+                        <td class="true">true</td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <span>
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                            >
+                              <path
+                                d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2V9M9 21H5a2 2 0 0 1-2-2V9m0 0h18"
+                              />
+                            </svg>
+                            <span>3</span>
+                          </span>
+                        </td>
+                        <td>michel@lewin.dev</td>
+                        <td><span>Michel Lewin</span></td>
+                        <td>false</td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <span>
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                            >
+                              <path
+                                d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2V9M9 21H5a2 2 0 0 1-2-2V9m0 0h18"
+                              />
+                            </svg>
+                            <span>4</span>
+                          </span>
+                        </td>
+                        <td>grau@gmail.com</td>
+                        <td><span>Niels Grau</span></td>
+                        <td class="true">true</td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <span>
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                            >
+                              <path
+                                d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2V9M9 21H5a2 2 0 0 1-2-2V9m0 0h18"
+                              />
+                            </svg>
+                            <span>5</span>
+                          </span>
+                        </td>
+                        <td>tessa@pixelcraft.com</td>
+                        <td>
+                          <span>Tessa Dietrich</span>
+                        </td>
+                        <td class="true">true</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <!-- the status layer is another 2 row grid where the status lives in row 2 -->
+            <div class="layer layer--status">
+              <div class="mover mover--nested">
+                <div class="content content--status">
+                  <dl class="status">
+                    <dt>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <polyline points="4 7 4 4 20 4 20 7" />
+                        <line x1="9" x2="15" y1="20" y2="20" />
+                        <line x1="12" x2="12" y1="4" y2="20" />
+                      </svg>
+                      <span>Name</span>
+                    </dt>
+                    <dd>Course Waitlist</dd>
+                    <dt>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <circle cx="12" cy="12" r="10" />
+                        <path
+                          d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"
+                        />
+                        <path d="M2 12h20" />
+                      </svg>
+                      <span>Domain</span>
+                    </dt>
+                    <dd>course.craftofui.com</dd>
+                    <dt>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <rect width="18" height="18" x="3" y="3" rx="2" />
+                        <path d="M16 8.9V7H8l4 5-4 5h8v-1.9" />
+                      </svg>
+                      <span>Count</span>
+                    </dt>
+                    <dd>23,602</dd>
+                    <dt>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <circle cx="12" cy="12" r="10" />
+                        <path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8" />
+                        <path d="M12 18V6" />
+                      </svg>
+                      <span>Prepaid</span>
+                    </dt>
+                    <dd>
+                      <span class="prepaid">16,280</span>
+                    </dd>
+                  </dl>
+                </div>
+                <div class="shadow-wrap">
+                  <div class="shadow shadow--dialog">
+                    <div></div>
+                  </div>
+                </div>
+              </div>
+              <div class="layer layer--dialog">
+                <div class="mover">
+                  <div class="content">
+                    <dialog class="dialog">
+                      <button>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        >
+                          <path
+                            d="m10.065 12.493-6.18 1.318a.934.934 0 0 1-1.108-.702l-.537-2.15a1.07 1.07 0 0 1 .691-1.265l13.504-4.44"
+                          />
+                          <path d="m13.56 11.747 4.332-.924" />
+                          <path d="m16 21-3.105-6.21" />
+                          <path
+                            d="M16.485 5.94a2 2 0 0 1 1.455-2.425l1.09-.272a1 1 0 0 1 1.212.727l1.515 6.06a1 1 0 0 1-.727 1.213l-1.09.272a2 2 0 0 1-2.425-1.455z"
+                          />
+                          <path d="m6.158 8.633 1.114 4.456" />
+                          <path d="m8 21 3.105-6.21" />
+                          <circle cx="12" cy="13" r="2" />
+                        </svg>
+                        <span>Explore</span>
+                      </button>
+                      <hr />
+                      <button>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        >
+                          <path d="M12 3v12" />
+                          <path d="m8 11 4 4 4-4" />
+                          <path
+                            d="M8 5H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-4"
+                          />
+                        </svg>
+                        <span>Import</span>
+                      </button>
+                      <button>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        >
+                          <path d="M4.9 16.1C1 12.2 1 5.8 4.9 1.9" />
+                          <path d="M7.8 4.7a6.14 6.14 0 0 0-.8 7.5" />
+                          <circle cx="12" cy="9" r="2" />
+                          <path d="M16.2 4.8c2 2 2.26 5.11.8 7.47" />
+                          <path d="M19.1 1.9a9.96 9.96 0 0 1 0 14.1" />
+                          <path d="M9.5 18h5" />
+                          <path d="m8 22 4-11 4 11" />
+                        </svg>
+                        <span>Broadcast</span>
+                      </button>
+                    </dialog>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+      <a
+        class="bear-link"
+        href="https://twitter.com/intent/follow?screen_name=jh3yy"
+        target="_blank"
+        rel="noreferrer noopener"
+      >
+        <svg
+          class="w-9"
+          viewBox="0 0 969 955"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <circle
+            cx="161.191"
+            cy="320.191"
+            r="133.191"
+            stroke="currentColor"
+            stroke-width="20"
+          ></circle>
+          <circle
+            cx="806.809"
+            cy="320.191"
+            r="133.191"
+            stroke="currentColor"
+            stroke-width="20"
+          ></circle>
+          <circle
+            cx="695.019"
+            cy="587.733"
+            r="31.4016"
+            fill="currentColor"
+          ></circle>
+          <circle
+            cx="272.981"
+            cy="587.733"
+            r="31.4016"
+            fill="currentColor"
+          ></circle>
+          <path
+            d="M564.388 712.083C564.388 743.994 526.035 779.911 483.372 779.911C440.709 779.911 402.356 743.994 402.356 712.083C402.356 680.173 440.709 664.353 483.372 664.353C526.035 664.353 564.388 680.173 564.388 712.083Z"
+            fill="currentColor"
+          ></path>
+          <rect
+            x="310.42"
+            y="448.31"
+            width="343.468"
+            height="51.4986"
+            fill="#FF1E1E"
+          ></rect>
+          <path
+            fill-rule="evenodd"
+            clip-rule="evenodd"
+            d="M745.643 288.24C815.368 344.185 854.539 432.623 854.539 511.741H614.938V454.652C614.938 433.113 597.477 415.652 575.938 415.652H388.37C366.831 415.652 349.37 433.113 349.37 454.652V511.741L110.949 511.741C110.949 432.623 150.12 344.185 219.845 288.24C289.57 232.295 384.138 200.865 482.744 200.865C581.35 200.865 675.918 232.295 745.643 288.24Z"
+            fill="currentColor"
+          ></path>
+        </svg>
+      </a>
+      <button onclick="toggle()">open/close</button>
+      <script>
+        // import { Pane } from 'https://cdn.skypack.dev/tweakpane@4.0.4'
+
+const config = {
+  explode: true,
+  theme: 'dark',
+  x1: -20,
+  y1: 35,
+  x2: 30,
+  step: 3,
+  tx: 0.5,
+  ty: -0.5,
+}
+
+// const ctrl = new Pane({
+//   title: 'Config',
+//   expanded: true,
+// })
+
+const update = () => {
+  document.documentElement.dataset.theme = config.theme
+  document.documentElement.dataset.exploded = config.explode
+  document.documentElement.style.setProperty('--tx', config.tx)
+  document.documentElement.style.setProperty('--ty', config.ty)
+  document.documentElement.style.setProperty('--x1', config.x1)
+  document.documentElement.style.setProperty('--y1', config.y1)
+  document.documentElement.style.setProperty('--x2', config.x2)
+  document.documentElement.style.setProperty('--step', config.step)
+
+//   x1.disabled = y1.disabled = x2.disabled = !config.explode
+}
+
+toggle = () => {
+    config.explode = !config.explode
+    if (!config.explode) {
+        document.documentElement.style.setProperty('--tx', 0)
+        document.documentElement.style.setProperty('--ty', 0)
+        document.documentElement.style.setProperty('--x1', 0)
+        document.documentElement.style.setProperty('--y1', 0)
+        document.documentElement.style.setProperty('--x2', 0)
+        document.documentElement.style.setProperty('--step', 0)
+    } else {
+        document.documentElement.style.setProperty('--tx', config.tx)
+        document.documentElement.style.setProperty('--ty', config.ty)
+        document.documentElement.style.setProperty('--x1', config.x1)
+        document.documentElement.style.setProperty('--y1', config.y1)
+        document.documentElement.style.setProperty('--x2', config.x2)
+        document.documentElement.style.setProperty('--step', config.step)
+    }
+    document.documentElement.dataset.exploded = config.explode
+
+}
+
+const sync = (event) => {
+  if (
+    !document.startViewTransition ||
+    event.target.controller.view.labelElement.innerText !== 'theme'
+  )
+    return update()
+  document.startViewTransition(() => update())
+}
+
+// ctrl.addBinding(config, 'explode', {
+//   label: 'explode',
+// })
+
+// const translations = ctrl.addFolder({ title: 'translations', expanded: false })
+// translations.addBinding(config, 'step', {
+//   label: 'z',
+//   min: 2,
+//   max: 10,
+//   step: 0.1,
+// })
+// translations.addBinding(config, 'tx', {
+//   label: 'x',
+//   min: -3,
+//   max: 3,
+//   step: 0.1,
+// })
+// translations.addBinding(config, 'ty', {
+//   label: 'y',
+//   min: -3,
+//   max: 3,
+//   step: 0.1,
+// })
+
+// const rotations = ctrl.addFolder({ title: 'rotations', expanded: false })
+// const x1 = rotations.addBinding(config, 'x1', {
+//   label: 'x1',
+//   min: -360,
+//   max: 360,
+//   step: 1,
+// })
+// const y1 = rotations.addBinding(config, 'y1', {
+//   label: 'y1',
+//   min: -360,
+//   max: 360,
+//   step: 1,
+// })
+// const x2 = rotations.addBinding(config, 'x2', {
+//   label: 'x2',
+//   min: -360,
+//   max: 360,
+//   step: 1,
+// })
+
+// ctrl.addBinding(config, 'theme', {
+//   label: 'Theme',
+//   options: {
+//     System: 'system',
+//     Light: 'light',
+//     Dark: 'dark',
+//   },
+// })
+
+// ctrl.on('change', sync)
+update()
+
+// const dialog = document.querySelector('dialog')
+// const trigger = document.querySelector('.heading button')
+// trigger.addEventListener('click', () => {
+//   dialog[dialog.matches('[open]') ? 'close' : 'show']()
+// })
+
+      </script>
+</body>
+</html>

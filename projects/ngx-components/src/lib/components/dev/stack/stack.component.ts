@@ -1,10 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 
 @Component({
-  selector: 'stack',
+  selector: 'stack-component',
   imports: [],
   templateUrl: './stack.component.html',
-  styleUrl: './stack.component.css'
+  styleUrl: './stack.component.css',
+  encapsulation: ViewEncapsulation.ShadowDom,
+  standalone: true
 })
 export class StackComponent {
   // import { Pane } from 'https://cdn.skypack.dev/tweakpane@4.0.4'

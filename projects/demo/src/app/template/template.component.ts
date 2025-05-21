@@ -11,7 +11,7 @@ import { AccordeonGallery2Component } from '../../../../ngx-components/src/lib/c
 import { GradientFlowButtonComponent } from '../../../../ngx-components/src/lib/components/buttons/gradient-flow-button/gradient-flow-button.component';
 import { DottedGridBgComponent } from '../../../../ngx-components/src/lib/components/backgrounds/dotted-grid-bg/dotted-grid-bg.component';
 import { ShinyButtonComponent } from '../../../../ngx-components/src/lib/components/buttons/shiny-button/shiny-button.component';
-import { StackComponent } from '../../../../ngx-components/src/lib/components/edu/stack/stack.component';
+import { StackComponent } from '../../../../ngx-components/src/lib/components/dev/stack/stack.component';
 
 
 @Component({
