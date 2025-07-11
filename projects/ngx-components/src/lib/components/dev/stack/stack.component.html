@@ -1,19 +1,15 @@
-<button (click)="explode()">explode</button>
+<button (click)="toggle()">explode</button>
 <p class="test">TEST</p>
 <main>
     <div class="shadow shadow--main">
       <div></div>
     </div>
-    <!-- each layer comprises of a shadow, the content, and the next layer -->
     <section class="layer">
-      <!-- this is your shadow -->
       <div class="mover">
         <div class="shadow shadow--table">
           <div></div>
         </div>
-        <!-- the main content layer container – this parts moves on hover-->
         <div class="content content--main">
-          <!-- main content header - table -->
           <p class="heading">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -33,13 +29,11 @@
           <div class="table-slot"></div>
         </div>
       </div>
-      <!-- the next layer is the table with its heading -->
       <div class="layer table--layer">
         <div class="mover mover--nested">
           <div class="shadow shadow--status">
             <div></div>
           </div>
-          <!-- table with its heading goes in here -->
           <div class="content content--table">
             <div class="heading">
               <span>Subscribers</span>
@@ -224,7 +218,6 @@
             </div>
           </div>
         </div>
-        <!-- the status layer is another 2 row grid where the status lives in row 2 -->
         <div class="layer layer--status">
           <div class="mover mover--nested">
             <div class="content content--status">

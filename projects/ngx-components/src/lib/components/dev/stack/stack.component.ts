@@ -1,49 +1,61 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, ElementRef, inject, Renderer2, ViewEncapsulation } from '@angular/core';
 
 @Component({
   selector: 'stack-component',
   imports: [],
   templateUrl: './stack.component.html',
   styleUrl: './stack.component.css',
-  encapsulation: ViewEncapsulation.ShadowDom,
+  // encapsulation: ViewEncapsulation.ShadowDom,
   standalone: true
 })
 export class StackComponent {
-  // import { Pane } from 'https://cdn.skypack.dev/tweakpane@4.0.4'
+
+  private elementRef = inject(ElementRef)
+  private host = this.elementRef.nativeElement
 
   config = {
     explode: false,
     theme: 'light',
-    x1: -20,
-    y1: 35,
-    x2: 30,
-    step: 3,
-    tx: 0.5,
-    ty: -0.5,
+    stack: {
+      x1: -20, // { label: 'x1', min: -360, max: 360, step: 1 }
+      y1: 35, // { label: 'y1', min: -360, max: 360, step: 1 }
+      x2: 30, // { label: 'x2', min: -360, max: 360, step: 1 }
+      step: 5, // { label: 'z', min: 2, max: 10, step: 0.1 }
+      tx: 0.5, // { label: 'x', min: -3, max: 3, step: 0.1 }
+      ty: -0.5, // { label: 'y', min: -3, max: 3, step: 0.1 }
+    },
+    default: { x1: 0, y1: 0, x2: 0, step: 0, tx: 0, ty: 0 }
+  }
+
+  constructor() {
+    this.host.dataset.explode = this.config.explode
+    this.host.dataset.theme = 'dark'
+    this.setProp(this.host, this.config.default)
+  }
+
+  toggle() {
+    this.config.explode = !this.config.explode
+    this.host.dataset.explode = this.config.explode
+    this.host.dataset.theme = this.config.theme
+    this.config.explode ? this.setProp(this.host, this.config.stack) : this.setProp(this.host, this.config.default)
+  }
+
+  setProp(host: any, config: { [key: string]: any }) {
+    for (const key in config) {
+      host.style.setProperty('--' + key, config[key])
+    }
   }
   
-  // const ctrl = new Pane({
-  //   title: 'Config',
-  //   expanded: true,
-  // })
-  
-  update() {
-    document.documentElement.dataset['theme'] = this.config.theme
-    document.documentElement.dataset['exploded'] = '' + this.config.explode
-    document.documentElement.style.setProperty('--tx', '' + this.config.tx)
-    document.documentElement.style.setProperty('--ty', '' + this.config.ty)
-    document.documentElement.style.setProperty('--x1', '' + this.config.x1)
-    document.documentElement.style.setProperty('--y1', '' + this.config.y1)
-    document.documentElement.style.setProperty('--x2', '' + this.config.x2)
-    document.documentElement.style.setProperty('--step', '' + this.config.step)
-  
-    // x1.disabled = y1.disabled = x2.disabled = !this.config.explode
+  removeProp(host: any, config: { [key: string]: any }) {
+    for (const key in config) {
+      host.style.removeProperty('--' + key)
+    }
   }
+
 
   explode() {
     console.log('explode', this.config.explode)
     this.config.explode = !this.config.explode
-    this.update()
   }
   
   // const sync = (event) => {
@@ -86,12 +98,7 @@ export class StackComponent {
   //   max: 360,
   //   step: 1,
   // })
-  // const y1 = rotations.addBinding(config, 'y1', {
-  //   label: 'y1',
-  //   min: -360,
-  //   max: 360,
-  //   step: 1,
-  // })
+  // const y1 = rotations.addBinding(config, 'y1', )
   // const x2 = rotations.addBinding(config, 'x2', {
   //   label: 'x2',
   //   min: -360,

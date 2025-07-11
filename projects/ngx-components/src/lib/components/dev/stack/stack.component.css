@@ -1,19 +1,94 @@
-[data-exploded='false'] {
+html[data-exploded="true"] {
+  .shadow {
+    opacity: 1;
+    transition: opacity 1s;
+
+    div {
+      transition: translate 1s, scale 0.26s;
+    }
+  }
   .test {
-    color: red;
+    background-color: aquamarine;
   }
 }
-[data-exploded='true'] {
-  .test {
-    color: blue;
+
+@layer demo;
+
+@layer demo {
+  main {
+    transform-style: preserve-3d;
+    * {
+      transform-style: preserve-3d;
+    }
+  }
+
+  .table {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+
+    table {
+      translate: 0 2px;
+      border-collapse: collapse;
+      width: 100%;
+      max-width: 100%;
+      font-family: monospace;
+
+      thead {
+        background: color-mix(in hsl, canvas, canvasText 4%);
+        font-weight: 600;
+      }
+
+      td:first-of-type > span {
+        align-items: center;
+        display: flex;
+        gap: 0.5rem;
+
+        svg {
+          width: 16px;
+          color: var(--accent);
+        }
+      }
+
+      td {
+        border: 1px solid color-mix(in hsl, canvas, canvasText 30%);
+        padding: 0.2rem 0.5rem;
+        position: relative;
+
+        &:nth-of-type(3) {
+          overflow: hidden;
+          white-space: nowrap;
+          max-width: 12ch;
+          text-overflow: ellipsis;
+        }
+
+        &:first-of-type {
+          border-left: 0;
+        }
+        &:last-of-type {
+          border-right: 0;
+        }
+      }
+
+      .true {
+        color: hsl(140 80% 40%);
+      }
+    }
   }
 }
+
+
+
+
+/* .test {
+  transform: translate3d(0, 0, 100vmin) rotateX(calc(var(--x1, 340) * 1deg)) rotateY(calc(var(--y1, 30) * 1deg)) rotateX(calc(var(--x2, 40) * 1deg))
+} */
 
 /* @import url('https://unpkg.com/normalize.css') layer(normalize); */
 
-@layer normalize, base, demo, structural, explode, shadows;
+/* @layer normalize, base, demo, structural, explode, shadows; */
 
-@layer shadows {
+/* @layer shadows {
   :root {
     --power: linear(
       0 0%, 0.2688 9.91%, 0.3859 15%,
@@ -43,9 +118,9 @@
     opacity: 1;
     scale: 0.98;
   }
-}
+} */
 
-@layer explode {
+/* @layer explode {
   main {
     transform-style: preserve-3d;
     * {
@@ -71,7 +146,6 @@
         rotateX(0deg);
       transition: transform 1s 1s var(--power);
 
-      /* .shadow--main div, */
       .mover > :is(.content, .shadow) {
         transition: transform 0.26s, opacity 1s;
       }
@@ -130,9 +204,9 @@
       }
     }
   }
-}
+} */
 
-@layer structural {
+/* @layer structural { 
   :root {
     --accent: light-dark(hsl(12 94% 60%), hsl(280 80% 80%));
     --dialog-width: 140px;
@@ -198,9 +272,9 @@
     transition-behavior: allow-discrete;
     transition-duration: 0.26s;
     opacity: 0;
-    /* transform-origin: 50% 0;
+    transform-origin: 50% 0;
     scale: 0.9;
-    translate: 0 -12px; */
+    translate: 0 -12px;
   }
 
   @starting-style {
@@ -299,9 +373,9 @@
   .mover--nested {
     grid-area: 2 / 1;
   }
-}
+} */
 
-@layer demo {
+/* @layer demo {
   .table-slot {
     background: color-mix(in hsl, canvas, canvasText 2%);
     border: 1px solid color-mix(in hsl, canvas, canvasText 30%);
@@ -490,7 +564,6 @@
   }
 
   dialog {
-    /* display: block; */
     margin: 0;
     position: absolute;
     left: unset;
@@ -606,9 +679,9 @@
       }
     }
   }
-}
+} */
 
-@layer base {
+/* @layer base {
   :root {
     --font-size-min: 16;
     --font-size-max: 20;
@@ -688,7 +761,6 @@
     z-index: -1;
   }
 
-  /* Utilities */
   .sr-only {
     position: absolute;
     width: 1px;
@@ -700,10 +772,10 @@
     white-space: nowrap;
     border-width: 0;
   }
-}
+} */
 
-div.tp-dfwv {
+/* div.tp-dfwv {
   position: fixed;
   font-family: monospace;
   text-transform: lowercase;
-}
+} */
