@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { BubblyButtonComponent, ThemeGroupComponent } from '../../../../ngx-components/src/public-api';
+import { BubblyButtonComponent, FontGroupComponent, ThemeGroupComponent } from '../../../../ngx-components/src/public-api';
 import { CenteredHeadlineComponent } from '../../../../ngx-components/src/lib/components/text/centered-headline/centered-headline.component';
 import { ShimmerComponent } from '../../../../ngx-components/src/lib/components/effects/shimmer/shimmer.component';
 import { LavaButtonComponent } from '../../../../ngx-components/src/lib/components/buttons/lava-button/lava-button.component';
@@ -18,20 +18,21 @@ import { StackComponent } from '../../../../ngx-components/src/lib/components/de
   selector: 'app-template',
   imports: [
     // backgrounds
-    DottedGridBgComponent,
+    // DottedGridBgComponent,
     
     // buttons
     BubblyButtonComponent,
     GradientBorderButtonComponent,
-    GradientFlowButtonComponent,
+    // GradientFlowButtonComponent,
     LavaButtonComponent,
-    ShinyButtonComponent,
+    // ShinyButtonComponent,
 
     // gallery
-    AccordeonGalleryComponent,
-    AccordeonGallery2Component,
+    // AccordeonGalleryComponent,
+    // AccordeonGallery2Component,
     
     // themes
+    FontGroupComponent,
     ThemeGroupComponent,
 
     // text
@@ -40,7 +41,7 @@ import { StackComponent } from '../../../../ngx-components/src/lib/components/de
     // effects
     ShimmerComponent,
 
-    StackComponent
+    // StackComponent
   ],
   templateUrl: './template.component.html',
   styleUrl: './template.component.sass'
