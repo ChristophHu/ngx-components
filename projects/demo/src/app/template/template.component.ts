@@ -12,6 +12,7 @@ import { GradientFlowButtonComponent } from '../../../../ngx-components/src/lib/
 import { DottedGridBgComponent } from '../../../../ngx-components/src/lib/components/backgrounds/dotted-grid-bg/dotted-grid-bg.component';
 import { ShinyButtonComponent } from '../../../../ngx-components/src/lib/components/buttons/shiny-button/shiny-button.component';
 import { StackComponent } from '../../../../ngx-components/src/lib/components/dev/stack/stack.component';
+import { TimesGroupComponent } from '../../../../ngx-components/src/lib/components/settings/times/times-group/times-group.component';
 
 
 @Component({
@@ -34,6 +35,7 @@ import { StackComponent } from '../../../../ngx-components/src/lib/components/de
     // themes
     FontGroupComponent,
     ThemeGroupComponent,
+    TimesGroupComponent,
 
     // text
     CenteredHeadlineComponent,
